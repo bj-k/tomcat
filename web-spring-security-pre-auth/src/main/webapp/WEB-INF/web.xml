@@ -37,19 +37,19 @@
 <!--             <url-pattern>/*</url-pattern> -->
 <!--         </web-resource-collection> -->
 <!--         <auth-constraint> -->
-<!--             <role-name>wmc_user</role-name> -->
+<!--             <role-name>app_user</role-name> -->
 <!--         </auth-constraint> -->
 <!--     </security-constraint> -->
 <!--     <login-config> -->
 <!--         <auth-method>FORM</auth-method> -->
 <!--          <auth-method>BASIC</auth-method> --> 
-<!-- 		<realm-name>WMC</realm-name> -->
+<!-- 		<realm-name>MY_REALM</realm-name> -->
 <!-- 		<form-login-config> -->
 <!-- 			<form-login-page>/login.html</form-login-page> -->
 <!-- 			<form-error-page>/login_error.html</form-error-page> -->
 <!-- 		</form-login-config> -->
 <!--     </login-config> -->
     <security-role>
-        <role-name>wmc_user</role-name>
+        <role-name>app_user</role-name>
     </security-role>
 </web-app>
