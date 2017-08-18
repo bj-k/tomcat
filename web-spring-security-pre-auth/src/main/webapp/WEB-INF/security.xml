@@ -1,0 +1,49 @@
+<b:beans xmlns="http://www.springframework.org/schema/security"
+                xmlns:b="http://www.springframework.org/schema/beans"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                                               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+       <http entry-point-ref="preAuthenticatedProcessingFilterEntryPoint">
+       <custom-filter position="PRE_AUTH_FILTER" ref="preAuthFilter"/>
+       </http>
+
+    <b:bean id="inMemoryAuthenticationUserDetailsService"
+                class="ch.bj.spring.web.config.InMemoryAuthenticationUserDetailsService"/>
+
+    <b:bean id="preAuthenticatedProcessingFilterEntryPoint"
+                class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>
+
+    <b:bean id="preAuthenticatedAuthenticationProvider"
+                class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+        <b:property name="preAuthenticatedUserDetailsService" ref="inMemoryAuthenticationUserDetailsService"/>
+    </b:bean>
+
+<!--     <b:bean id="simpleAttributes2GrantedAuthoritiesMapper" -->
+<!--                 class="org.springframework.security.core.authority.mapping.SimpleAttributes2GrantedAuthoritiesMapper"> -->
+<!--         <b:property name="attributePrefix" value=""/> -->
+<!--     </b:bean> -->
+
+    <b:bean id="webXmlMappableAttributesRetriever"
+                class="org.springframework.security.web.authentication.preauth.j2ee.WebXmlMappableAttributesRetriever"/>
+
+    <b:bean id="j2eeBasedPreAuthenticatedWebAuthenticationDetailsSource"
+                class="org.springframework.security.web.authentication.preauth.j2ee.J2eeBasedPreAuthenticatedWebAuthenticationDetailsSource">
+        <b:property name="mappableRolesRetriever" ref="webXmlMappableAttributesRetriever"/>
+<!--         <b:property name="userRoles2GrantedAuthoritiesMapper" ref="simpleAttributes2GrantedAuthoritiesMapper"/> -->
+    </b:bean>
+
+    <b:bean id="preAuthFilter"
+                class="ch.bj.spring.web.config.RequestParameterAuthenticationFilter"
+                >
+  <!--                 class="org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter" -->
+        <b:property name="authenticationManager" ref="appControlAuthenticationManager"/>
+        <b:property name="authenticationDetailsSource" ref="j2eeBasedPreAuthenticatedWebAuthenticationDetailsSource"/>
+        <b:property name="checkForPrincipalChanges" value="true"/>
+        <b:property name="continueFilterChainOnUnsuccessfulAuthentication" value="false"/>
+    </b:bean>
+
+    <authentication-manager alias="appControlAuthenticationManager">
+        <authentication-provider ref="preAuthenticatedAuthenticationProvider"/>
+    </authentication-manager>
+</b:beans>

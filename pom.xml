@@ -27,4 +27,13 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	<modules>
+		<module>web-cdi</module>
+		<module>web-spring</module>
+		<module>web-spring-security</module>
+		<module>web-spring-security-mixed</module>
+		<module>web-spring-security-xml</module>
+		<module>web-spring-security-pre-auth</module>
+	</modules>
 </project>
+
